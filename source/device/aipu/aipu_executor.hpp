@@ -32,45 +32,9 @@ extern "C" {
 #include "graph/subgraph.h"
 #include "operator/op.h"
 #include "utility/log.h"
-
-#include "timvx_dump.h"
 }
 
-#include <map>
-#include <algorithm>
-#include <iomanip>
-#include <iostream>
-#include <tuple>
-#include <vector>
-#include <cmath>
-
-#include "convolution_param.h"
-
-#include "tim/vx/tensor.h"
-
-#include "tim/vx/context.h"
-#include "tim/vx/graph.h"
-#include "tim/vx/operation.h"
-
-#include "tim/vx/ops/activations.h"
-#include "tim/vx/ops/batchnorm.h"
-#include "tim/vx/ops/concat.h"
-#include "tim/vx/ops/conv2d.h"
-#include "tim/vx/ops/deconv.h"
-#include "tim/vx/ops/depth2space.h"
-#include "tim/vx/ops/elementwise.h"
-#include "tim/vx/ops/fullyconnected.h"
-#include "tim/vx/ops/gather.h"
-#include "tim/vx/ops/instancenormalization.h"
-#include "tim/vx/ops/pool2d.h"
-#include "tim/vx/ops/reshape.h"
-#include "tim/vx/ops/resize.h"
-#include "tim/vx/ops/simple_operations.h"
-#include "tim/vx/ops/slice.h"
-#include "tim/vx/ops/softmax.h"
-#include "tim/vx/ops/space2depth.h"
-#include "tim/vx/ops/split.h"
-#include "tim/vx/ops/transpose.h"
+#include "gcompiler_api.h"
 
 #define SPEC_TYPE_CONV      1
 #define SPEC_TYPE_CONV_BIAS 2
@@ -82,8 +46,8 @@ extern "C" {
 #define SPEC_TYPE_RESHAPE   8
 #define SPEC_TYPE_INPUT     9
 
-typedef std::map<uint32_t, std::shared_ptr<tim::vx::Tensor> > dict_irt2vxt;
-typedef std::map<uint32_t, std::shared_ptr<tim::vx::Operation> > dict_irt2vxo;
+//typedef std::map<uint32_t, std::shared_ptr<tim::vx::Tensor> > dict_irt2vxt;
+//typedef std::map<uint32_t, std::shared_ptr<tim::vx::Operation> > dict_irt2vxo;
 
 class VXEngine
 {
@@ -99,46 +63,16 @@ private:
     int Build(struct subgraph* subgraph);
     int VXTensorMap(struct graph* ir_graph, int ir_tensor_idx, int spec_type);
 
-    bool AddBatchNormNode(struct node* ir_node);
-    bool AddClipNode(struct node* ir_node);
-    bool AddConcatNode(struct node* ir_node);
     bool AddConvolutionNode(struct node* ir_node);
     bool AddDeconvNode(struct node* ir_node);
-    bool AddDepthToSpaceNode(struct node* ir_node);
-    bool AddDropoutNode(struct node* ir_node);
-    bool AddEltwiseNode(struct node* ir_node);
-    bool AddEluNode(struct node* ir_node);
-    bool AddFlattenNode(struct node* ir_node);
-    bool AddFullyConnectionNode(struct node* node);
-    bool AddGatherNode(struct node* node);
-    bool AddHardSwishNode(struct node* node);
-    bool AddInstanceNormNode(struct node* node);
-    bool AddInterpNode(struct node* ir_node);
-    bool AddMishNode(struct node* ir_node);
-    bool AddPermuteNode(struct node* ir_node);
-    bool AddPoolingNode(struct node* ir_node);
-    bool AddPReluNode(struct node* ir_node);
-    bool AddReluNode(struct node* ir_node);
-    bool AddRelu1Node(struct node* ir_node);
-    bool AddReshapeNode(struct node* ir_node);
-    bool AddResizeNode(struct node* ir_node);
-    bool AddScaleNode(struct node* ir_node);
-    bool AddSigmoidNode(struct node* ir_node);
-    bool AddSliceNode(struct node* ir_node);
-    bool AddSoftmaxNode(struct node* ir_node);
-    bool AddSpaceToDepthNode(struct node* ir_node);
-    bool AddSplitNode(struct node* ir_node);
-    bool AddTanhNode(struct node* ir_node);
-    bool AddTransposeNode(struct node* ir_node);
-    bool AddUpsampleNode(struct node* ir_node);
 
 public:
-    std::shared_ptr<tim::vx::Context> context;
-    std::shared_ptr<tim::vx::Graph> graph;
-    std::shared_ptr<tim::vx::Operation> ops;
+    //std::shared_ptr<tim::vx::Context> context;
+    //std::shared_ptr<tim::vx::Graph> graph;
+    //std::shared_ptr<tim::vx::Operation> ops;
     std::vector<char> nbg_buffer;
 
 private:
-    dict_irt2vxt vx_tensor_map;
-    dict_irt2vxo vx_node_map;
+    //dict_irt2vxt vx_tensor_map;
+    //dict_irt2vxo vx_node_map;
 };

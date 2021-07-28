@@ -72,6 +72,7 @@ OPTION (TENGINE_STANDALONE_HCL_AUTO_LOAD    "Auto load standalone hcl lib"      
 
 # Plugin options
 OPTION (TENGINE_ENABLE_ACL                  "With Arm Compute Library support"          OFF)
+OPTION (TENGINE_ENABLE_AIPU                 "With Arm China Zhouyi AIPU support"        OFF)
 OPTION (TENGINE_ENABLE_CUDA                 "With nVIDIA CUDA support"                  OFF)
 OPTION (TENGINE_ENABLE_OPENCL               "With Khronos OpenCL support"               OFF)
 OPTION (TENGINE_ENABLE_TENSORRT             "With nVIDIA TensorRT support"              OFF)

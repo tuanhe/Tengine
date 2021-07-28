@@ -127,7 +127,7 @@ int aipu_split_graph(struct graph* ir_graph)
 {
     struct device* cur_dev = ir_graph->attribute->context->device;
 
-    if (0 != strcmp(TIMVX_DEV_NAME, cur_dev->name))
+    if (0 != strcmp(AIPU_DEV_NAME, cur_dev->name))
     {
         return -1;
     }
