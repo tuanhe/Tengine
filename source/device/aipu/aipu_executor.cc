@@ -24,28 +24,18 @@
 #include "aipu_executor.hpp"
 #include "aipu_define.h"
 
-#ifdef TIMVX_MODEL_CACHE
-#include "defines.h"
-#include "cstdlib"
-#endif
-
-#ifdef TIMVX_MODEL_CACHE
-#include "tim/vx/ops/nbg.h"
-#include <fstream>
-#endif
-
-
-VXEngine::VXEngine()
+AIPUEngine::AIPUEngine()
 {
+    graph = std::make_shared<aipubt::Graph>("aipu_graph_", aipubt::DataLayout::DataLayout_NHWC);
 };
 
 
-int VXEngine::VXTensorMap(struct graph* ir_graph, int ir_tensor_idx, int spec_type)
+int AIPUEngine::VXTensorMap(struct graph* ir_graph, int ir_tensor_idx, int spec_type)
 {
     return 0;
 }
 
-int VXEngine::Build(struct subgraph* subgraph)
+int AIPUEngine::Build(struct subgraph* subgraph)
 {
     struct graph* ir_graph = subgraph->graph;
 
@@ -67,19 +57,19 @@ int VXEngine::Build(struct subgraph* subgraph)
 }
 
 
-int VXEngine::VXEnginePreRun(struct subgraph* subgraph)
+int AIPUEngine::AIPUEnginePreRun(struct subgraph* subgraph)
 {
     struct graph* ir_graph = subgraph->graph;
 
     return 0;
 };
 
-int VXEngine::VXEngineRun(struct subgraph* subgraph)
+int AIPUEngine::AIPUEngineRun(struct subgraph* subgraph)
 {
     return 0;
 }
 
-void VXEngine::VXEnginePostRun()
+void AIPUEngine::AIPUEnginePostRun()
 {
 
 };

@@ -30,7 +30,7 @@ extern "C"
 }
 
 
-bool VXEngine::AddConvolutionNode(struct node* ir_node)
+bool AIPUEngine::AddConvolutionNode(struct node* ir_node)
 {
     struct graph* ir_graph = ir_node->graph;
 

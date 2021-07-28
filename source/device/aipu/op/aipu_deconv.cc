@@ -31,7 +31,7 @@ extern "C"
 }
 
 
-bool VXEngine::AddDeconvNode(struct node* ir_node)
+bool AIPUEngine::AddDeconvNode(struct node* ir_node)
 {
     struct graph* ir_graph = ir_node->graph;
 

@@ -36,30 +36,31 @@ extern "C"
 int aipu_dev_init(struct device* dev)
 {
     (void)dev;
+    //set aipu target
     return 0;
 }
 
 
 int aipu_dev_prerun(struct device* dev, struct subgraph* subgraph, void* options)
 {
-    subgraph->device_graph = new VXEngine;
-    auto engine = (VXEngine*)subgraph->device_graph;
+    subgraph->device_graph = new AIPUEngine;
+    auto engine = (AIPUEngine*)subgraph->device_graph;
 
-    return engine->VXEnginePreRun(subgraph);
+    return engine->AIPUEnginePreRun(subgraph);
 }
 
 
 int aipu_dev_run(struct device* dev, struct subgraph* subgraph)
 {
-    auto engine = (VXEngine*)subgraph->device_graph;
-    return engine->VXEngineRun(subgraph);
+    auto engine = (AIPUEngine*)subgraph->device_graph;
+    return engine->AIPUEngineRun(subgraph);
 }
 
 
 int aipu_dev_postrun(struct device* dev, struct subgraph* subgraph)
 {
-    auto engine = (VXEngine*)subgraph->device_graph;
-    engine->VXEnginePostRun();
+    auto engine = (AIPUEngine*)subgraph->device_graph;
+    engine->AIPUEnginePostRun();
     delete engine;
 
     return 0;
