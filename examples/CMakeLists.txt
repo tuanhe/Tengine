@@ -71,6 +71,9 @@ TENGINE_EXAMPLE (tm_yolofastest              tm_yolofastest.cpp)
 TENGINE_EXAMPLE (tm_ultraface                tm_ultraface.cpp)
 
 
+IF(TENGINE_ENABLE_AIPU)
+    TENGINE_EXAMPLE (tm_classification_aipu      tm_classification_aipu.c)
+ENDIF()
 
 IF(TENGINE_ENABLE_ACL)
     TENGINE_EXAMPLE (tm_classification_acl       tm_classification_acl.c)
