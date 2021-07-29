@@ -23,25 +23,28 @@
 
 #include "aipu_registry.hpp"
 
-extern "C"
+AIPULayer::~AIPULayer(){
+    layer_map.clear();
+};
+
+layer_function_t AIPULayer::get_layer_function_by_type(op_type op_type)
 {
-#include "operator/op.h"
-#include "convolution_param.h"
+    auto iter = layer_map.find(op_type);  
+    if(iter == layer_map.end())  
+        return nullptr;  
+    else  
+        return iter->second; 
 }
 
-
-bool add_OP_CONV_node(struct node* ir_node)
+void AIPULayer::register_layer(op_type type, layer_function_t fn)
 {
-    struct graph* ir_graph = ir_node->graph;
-
-    struct conv_param* param = (struct conv_param*)ir_node->op.param_mem;
-
-    struct tensor* input_tensor = get_ir_graph_tensor(ir_graph, ir_node->input_tensors[0]);
-    struct tensor* weight_tensor = get_ir_graph_tensor(ir_graph, ir_node->input_tensors[1]);
-    struct tensor* output_tensor = get_ir_graph_tensor(ir_graph, ir_node->output_tensors[0]);
-
-    printf("Entering %s %d\n", __FUNCTION__, __LINE__);
-    return true;
+    layer_map.insert(std::pair<op_type, layer_function_t>(type, fn));
 }
 
-AIPU_LAYER_REGISTRY(OP_CONV);
+AIPULayer& AIPULayer::get_instance()
+{
+    static AIPULayer aipu_layers;  
+    return aipu_layers; 
+}
+    
+

@@ -23,6 +23,7 @@
 
 #include "aipu_graph.hpp"
 #include "aipu_executor.hpp"
+#include "aipu_registry.hpp"
 
 extern "C"
 {
@@ -71,16 +72,20 @@ int aipu_dev_prerun(struct device* dev, struct subgraph* subgraph, void* options
 
         if(ir_node->op.type == OP_CONST || ir_node->op.type == OP_INPUT)
             continue;
-
-        printf("%s  %d  ir node :%s (%s)\n", __FUNCTION__, __LINE__, get_op_name_from_type(ir_node->op.type), ir_node->name);
-        //call the add_node_xxx()
-        //add_node_ops node_ops = find_vxnode_ops_by_type(ir_node->op.op_type);
         
-        //if( NULL == node_ops)
-        //{
-        //    printf("Error : node %s is not implemented in the vsiplugin\n", ir_node->name);
-        //    goto RELEASE ;
-        //}
+        printf("%s  %d  ir node :%s (%s)\n", __FUNCTION__, __LINE__, get_op_name_from_type(ir_node->op.type), ir_node->name);
+
+        auto layer_function = AIPULayer::get_instance().get_layer_function_by_type(ir_node->op.type);
+        if( nullptr == layer_function)
+        {
+            TLOG_ERR("Tengine Fatal: %s is not implemented in the AIPU\n", get_op_name_from_type(ir_node->op.type));
+            return -1;
+        }
+
+        if(!layer_function(ir_node)){
+            TLOG_ERR("Tengine Fatal: node %s parameter filling error\n", ir_node->name);
+            return -1;
+        }
     }
     
     subgraph->device_graph = new AIPUEngine;

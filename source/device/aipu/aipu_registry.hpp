@@ -18,11 +18,12 @@
  */
 
 /*
- * Copyright (c) 2021, Open AI Lab
- * Author: lswang@openailab.com
+ * Author: tuanhe
  */
 
 #pragma once
+#include <functional>
+#include <map>
 
 extern "C" {
 #include "device/device.h"
@@ -34,23 +35,32 @@ extern "C" {
 #include "utility/log.h"
 }
 
-#include "gcompiler_api.h"
+using layer_function_t = std::function<bool(struct node* ir_node)>;
+using op_type = uint16_t;
 
-class AIPUEngine
+class AIPULayer
 {
-public:
-    AIPUEngine();
-    ~AIPUEngine() = default;
-
-    int AIPUEnginePreRun(struct subgraph* subgraph);
-    int AIPUEngineRun(struct subgraph* subgraph);
-    void AIPUEnginePostRun();
-
-private:
-    int Build(struct subgraph* subgraph);
-    int VXTensorMap(struct graph* ir_graph, int ir_tensor_idx, int spec_type);
-
-private:
-    std::shared_ptr<aipubt::Graph> graph;
-
+    public:   
+        layer_function_t get_layer_function_by_type(op_type);
+        void register_layer(op_type, layer_function_t);  
+        static AIPULayer& get_instance();  
+    
+    private:  
+        AIPULayer(){};
+        ~AIPULayer();
+    
+    private:  
+        std::map<op_type, layer_function_t> layer_map;  
 };
+
+class AIPULayerRegistery {
+    public:
+        AIPULayerRegistery(op_type op_type,  layer_function_t fn)
+        {
+            AIPULayer::get_instance().register_layer(op_type, fn);
+        }
+};
+
+#define AIPU_LAYER_REGISTRY(OPTYPE)          \
+       static AIPULayerRegistery g_register_##OPTYPE(OPTYPE, add_##OPTYPE##_node);
+

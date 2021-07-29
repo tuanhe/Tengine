@@ -18,11 +18,10 @@
  */
 
 /*
- * Copyright (c) 2021, Open AI Lab
- * Author: hhchen@openailab.com
+ * Author: tuanhe
  */
 
-#include "aipu_executor.hpp"
+#include "aipu_registry.hpp"
 
 extern "C"
 {
@@ -31,7 +30,7 @@ extern "C"
 }
 
 
-bool AIPUEngine::AddDeconvNode(struct node* ir_node)
+bool add_OP_DECONV_node(struct node* ir_node)
 {
     struct graph* ir_graph = ir_node->graph;
 
@@ -41,5 +40,8 @@ bool AIPUEngine::AddDeconvNode(struct node* ir_node)
     struct tensor* weight_tensor = get_ir_graph_tensor(ir_graph, ir_node->input_tensors[1]);
     struct tensor* output_tensor = get_ir_graph_tensor(ir_graph, ir_node->output_tensors[0]);
 
+    printf("Entering %s %d\n", __FUNCTION__, __LINE__);
     return true;
 }
+
+AIPU_LAYER_REGISTRY(OP_DECONV);
